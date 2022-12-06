@@ -155,10 +155,10 @@ def run_data():
     #st.write(f'outcome: {outcome}')
     #print output
     if outcome == 1:
-        st.write('Given your parameters, the model is predicting that you are a linkedin user')
+        st.markdown('Given your parameters, the model is predicting that you **_are_** a linkedin user')
         st.image(is_user)
     else:
-        st.write('Given your parameters, the model is predicting that you are not a linkedin user')
+        st.markdown('Given your parameters, the model is predicting that you are **_not_** a linkedin user')
         st.image(not_user)
 
 
