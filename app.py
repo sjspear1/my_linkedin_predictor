@@ -55,12 +55,69 @@ st.sidebar.subheader('User Details')
 # Sidebar Options:
 params={
    'age' : st.sidebar.slider('Age', 18, 98), #slider from 18 to max age in dataset
-   'marital' : st.sidebar.selectbox('Married', (1, 0)), #1 is married, 0 is not married
-   'female' : st.sidebar.selectbox('Gender', ('1', '0')),  #1 is female, 0 is male
-   'par' : st.sidebar.selectbox('Parent', ('1', '0')),  #1 is parent, 0 is not parent
-   'income': st.sidebar.selectbox('Income', (1, 2, 3, 4, 5, 6, 7, 8, 9)),
-   'educ2' : st.sidebar.selectbox('Education', (1, 2, 3, 4, 5, 6, 7, 8))
+   'marital' : st.sidebar.selectbox('Married', ('Yes', 'No')), #1 is married, 0 is not married
+   'female' : st.sidebar.selectbox('Gender', ('Female', 'Male')),  #1 is female, 0 is male
+   'par' : st.sidebar.selectbox('Parent', ('Yes', 'No')),  #1 is parent, 0 is not parent
+   'income': st.sidebar.selectbox('Income', ("Less than $10,000",
+                                                 "10 to under $20,000",
+                                                  "20 to under $30,000",
+                                                  "30 to under $40,000",
+                                                  "40 to under $50,000",
+                                                  "50 to under $75,000",
+                                                  "75 to under $100,000",
+                                                  "100 to under $150,000",
+                                                  "$150,000 or more")),
+   'educ2' : st.sidebar.selectbox('Education', ("Less than high school",
+                                                    "High school incomplete",
+                                                    "High school graduate",
+                                                    "Some college, no degree",
+                                                    "Two-year associate degree",
+                                                    "Four-year college degree",
+                                                    "Some postgraduate",
+                                                    "Postgraduate degree"))
 }
+
+marital_param = 1 if params['marital'] == 'Yes' else 0
+female_param = 1 if params['female'] == 'Female' else 0
+parent_param = 1 if params['par'] == 'Yes' else 0
+
+
+if params['income'] == "Less than $10,000":
+    income_param = 1
+elif params['income'] == "10 to under $20,000":
+    income_param = 2
+elif params['income'] == "20 to under $30,000":
+    income_param = 3
+elif params['income'] == "30 to under $40,000":
+    income_param = 4
+elif params['income'] == "40 to under $50,000":
+    income_param = 5
+elif params['income'] == "50 to under $75,000":
+    income_param = 6
+elif params['income'] == "75 to under $100,000":
+    income_param = 7
+elif params['income'] == "100 to under $150,000":
+    income_param = 8
+else:
+    income_param = 9
+
+
+if params['educ2'] == "Less than high school":
+    educ_param = 1
+elif params['educ2'] == "High school incomplete":
+    educ_param = 2
+elif params['educ2'] == "High school graduate":
+    educ_param = 3
+elif params['educ2'] == "Some college, no degree":
+    educ_param = 4
+elif params['educ2'] == "Two-year associate degree":
+    educ_param = 5
+elif params['educ2'] == "Four-year college degree":
+    educ_param = 6
+elif params['educ2'] == "Some postgraduate":
+    educ_param = 7
+else:
+    educ_param = 8
 
 
 # Target (y) and feature(s) selection (X)
@@ -81,17 +138,17 @@ y_pred = lr.predict(x_test) # Make predictions using the model and the testing d
 
 def run_data():
     newdata = [[
-        params['income'],
-        params['educ2'],
-        params['par'],
-        params['marital'],
-        params['female'],
+        income_param,
+        educ_param,
+        parent_param,
+        marital_param,
+        female_param,
         params['age']
         ]]
 
     newdata_df = pd.DataFrame(newdata, columns = ['income', 'educ2', 'par', 'marital', 'female', 'age'])
 
-    newdata_df
+    #newdata_df
 
     newdata_df["prediction_on_linkedin"] = lr.predict(newdata_df)
     outcome = newdata_df.iloc[0]['prediction_on_linkedin']
