@@ -133,7 +133,7 @@ x_train, x_test, y_train, y_test = train_test_split(x,
 lr = LogisticRegression() # Initialize algorithm 
 lr.fit(x_train, y_train) # Fit algorithm to training data
 y_pred = lr.predict(x_test) # Make predictions using the model and the testing data
-
+y_pred_prob = lr.predict_proba(x_test) # Make probability predictions using the model and the testing data
 
 
 def run_data():
@@ -150,15 +150,20 @@ def run_data():
 
     #newdata_df
 
-    newdata_df["prediction_on_linkedin"] = lr.predict(newdata_df)
-    outcome = newdata_df.iloc[0]['prediction_on_linkedin']
+    # Use model to make predictions
+    outcome = lr.predict(newdata)
+    prob = round( lr.predict_proba(newdata)[0,1] * 100 , 2 )
+   
+
     #st.write(f'outcome: {outcome}')
     #print output
     if outcome == 1:
         st.markdown('Given your parameters, the model is predicting that you **_are_** a linkedin user')
+        st.markdown(f'The probability that you are a linkedin user is {prob}%')
         st.image(is_user)
     else:
         st.markdown('Given your parameters, the model is predicting that you are **_not_** a linkedin user')
+        st.markdown(f'The probability that you are a linkedin user is {prob}%')
         st.image(not_user)
 
 
